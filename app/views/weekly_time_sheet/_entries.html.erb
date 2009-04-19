@@ -27,7 +27,7 @@ current_project_id = nil
       <%=h entry.hours %>
     </td>
     <td>
-      <a href="#" onclick="return MyWeeklyTimeEntry.deleteTime(<%= entry.id %>)"><%= t('button_delete') %></a>
+      <a href="#" onclick="return MyWeeklyTimeEntry.deleteTime(<%= entry.id %>)"><%=l 'button_delete' %></a>
     </td>
   </tr>
   
