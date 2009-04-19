@@ -13,7 +13,7 @@ class WeeklyTimeSheetController < ApplicationController
     
     if Issue.respond_to?(:visible_by)
       Issue.visible_by(User.current) do
-        ret = Issue.find(:all, :conditions => ["#{IssueStatus.table_name}.is_closed = ? AND projects.project_id = ?", false, params[:id]], :include => [:status, :project]).collect do |issue|
+        ret = Issue.find(:all, :conditions => ["#{IssueStatus.table_name}.is_closed = ? AND #{Issue.table_name}.project_id = ?", false, params[:id]], :include => [:status, :project]).collect do |issue|
           "<option value=\"#{issue.id}\">#{issue.to_s}</option>"
         end.join("\n")
       end
