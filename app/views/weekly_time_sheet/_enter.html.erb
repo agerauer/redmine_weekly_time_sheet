@@ -6,7 +6,7 @@
       <label for="entry_project"><%=l 'field_project' %></label>
       <select id="entry_project" name="entry[project_id]" onchange="MyWeeklyTimeEntry.projectChanged()">
         <option value="">--- <%=l 'actionview_instancetag_blank_option' %> ---</option>
-        <% Project.visible.find(:all, :order => 'lft').each do |prj| %>
+        <% Project.find(:all, :conditions => Project.visible_by, :order => 'lft').each do |prj| %>
         <option value="<%= prj.id %>" <%= 'selected="selected"' if prj.id == @entry.project_id %>><%= prj.to_s %></option>
         <% end %>
       </select>
