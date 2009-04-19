@@ -1,0 +1,40 @@
+<form id="time_entry_form" class="tabular" onsubmit="return MyWeeklyTimeEntry.submitTime()" method="post" action="#">
+  <input type="hidden" id="entry_id" name="entry[id]" value="<%= @entry.id %>" />
+  <input type="hidden" id="entry_date" name="entry[spent_on]" value="<%= @entry.spent_on.to_s(:sql) %>" />
+  <div class="box">
+    <p>
+      <label for="entry_project"><%=t 'field_project' %></label>
+      <select id="entry_project" name="entry[project_id]" onchange="MyWeeklyTimeEntry.projectChanged()">
+        <option value="">--- <%=t 'actionview_instancetag_blank_option' %> ---</option>
+        <% Project.visible.find(:all, :order => 'lft').each do |prj| %>
+        <option value="<%= prj.id %>" <%= 'selected="selected"' if prj.id == @entry.project_id %>><%= prj.to_s %></option>
+        <% end %>
+      </select>
+    </p>
+    <p>
+      <label for="entry_issue"><%=t 'field_issue' %></label>
+      <select id="entry_issue" name="entry[issue_id]">
+        <option value="">--- <%=t 'actionview_instancetag_blank_option' %> ---</option>
+      </select>
+    </p>
+    <p>
+      <label for="entry_activity"><%=t 'field_activity' %></label>
+      <select id="entry_activity" name="entry[activity_id]">
+        <% activity_collection_for_select_options.each do |activity| %>
+        <option value="<%= activity.last %>"><%= activity.first %></option>
+        <% end %>
+      </select>
+    </p>
+    <p>
+      <label for="entry_hours"><%=t 'field_hours' %></label>
+      <input id="entry_hours" name="entry[hours]" />
+    </p>
+    <p>
+      <label for="entry_comment"><%=t 'field_comments' %></label>
+      <textarea id="entry_comment" name="entry[comments]" style="width: 50em; height: 4em"></textarea>
+    </p>
+    <p>
+    <%= submit_tag l(:button_save) %>
+    </p>
+  </div>
+</form>

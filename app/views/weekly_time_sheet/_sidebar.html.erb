@@ -1,0 +1,4 @@
+<h3>Navigate</h3>
+<%= link_to 'prev week', :action => 'index', :day => last_week.day, :month => last_week.month, :year => last_week.year %><br />
+<%= link_to 'next week', :action => 'index', :day => next_week.day, :month => next_week.month, :year => next_week.year %><br />
+<%= link_to 'today',  :action => 'index' %><br />

@@ -1,0 +1,12 @@
+<div class="tabs">
+<ul>
+<% (0..6).each do |i| 
+  day = display_first_day_of_week + i 
+  tabtitle =  day.strftime('%a %d %B')
+%>
+  <li>
+    <%= link_to tabtitle, {:action => 'index', :day => day.day, :month => day.month, :year => day.year}, {:class => (day == display_date ? 'selected' : '')} %>
+  </li>
+<% end %>
+</ul>
+</div>

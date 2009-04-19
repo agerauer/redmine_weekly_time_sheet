@@ -1,0 +1,53 @@
+<script type="text/javascript" charset="utf-8">
+//<![CDATA[
+  var MyWeeklyTimeEntry = {
+    validateTimeForm: function() {
+      if( $('entry_project').present() &&
+          $('entry_issue').present() &&
+          $('entry_activity').present() &&
+          $('entry_hours').present() &&
+          $('entry_comment').present()) {
+            return true;
+      } else {
+        return false;
+      }
+    },
+    clearTimeForm: function() {
+      $('entry_hours').clear();
+      $('entry_comment').clear();
+    },
+    deleteTime: function(id) {
+      new Ajax.Updater('time_entry_list', '/<%= controller_name %>/delete_item/' + id);
+      return false;
+    },
+    projectChanged: function() {
+      prj_id = $('entry_project').value;
+      new Ajax.Updater('entry_issue', '/<%= controller_name %>/project_tasks/' + prj_id);
+      return false;
+    },
+    submitTime: function() {
+      if(this.validateTimeForm()) {
+        new Ajax.Updater('time_entry_list', '/<%= controller_name %>/submit_time', {
+          parameters: Form.serialize('time_entry_form'),
+          method: 'post',
+          onSuccess: function(result) {
+            MyWeeklyTimeEntry.clearTimeForm();
+          }
+        });      
+      } else {
+        alert('Please fill out the form completly');
+      }
+      return false;
+    }
+  };
+//]]>
+</script>
+
+<%= render :partial => 'navigation' %>
+<div id="time_entry_list">
+<%= render :partial => 'entries' %>
+</div>
+<%= render :partial => 'enter' %>
+<% content_for :sidebar do %>
+    <%= render :partial => 'sidebar' %>
+<% end %>

@@ -1,0 +1,47 @@
+<table class="list" id="time-report">
+<%
+timesum = 0
+current_project_id = nil
+@entries.each do |entry| 
+  timesum += entry.hours 
+%>
+  <% if current_project_id != entry.project_id  
+    current_project_id = entry.project_id   %>
+    <tr class="odd">
+      <th>
+        <%=h entry.project.to_s %>
+      </th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  <% end %>
+  <tr>
+    <td>
+      <%= link_to entry.issue.to_s, {:controller => "issues", :action => "show", :id => entry.issue} %>
+    </td>
+    <td>
+      <%=h entry.comments %>
+    </td>
+    <td class="hours">
+      <%=h entry.hours %>
+    </td>
+    <td>
+      <a href="#" onclick="return MyWeeklyTimeEntry.deleteTime(<%= entry.id %>)"><%= t('button_delete') %></a>
+    </td>
+  </tr>
+  
+<% end %>
+<tr class="total">
+<td>
+  <%=t 'label_total'  %>
+</td>
+<td>
+</td>
+<td class="hours">
+  <%=h timesum %>
+</td>
+<td></td>
+</tr>
+</table>
+
