@@ -9,13 +9,20 @@ class WeeklyTimeSheetController < ApplicationController
   end
   
   def project_tasks
-    Issue.visible_by(User.current) do
-      ret = Issue.find(:all, :conditions => ["#{IssueStatus.table_name}.is_closed = ?", false], :include => :status).collect do |issue|
+    ret = ''
+    
+    if Issue.respond_to?(:visible_by)
+      Issue.visible_by(User.current) do
+        ret = Issue.find(:all, :conditions => ["#{IssueStatus.table_name}.is_closed = ?", false], :include => [:status, :project]).collect do |issue|
+          "<option value=\"#{issue.id}\">#{issue.to_s}</option>"
+        end.join("\n")
+      end
+    else
+      ret = Issue.visible.open.find(:all, :conditions => {:project_id => params[:id]}).collect do |issue|
         "<option value=\"#{issue.id}\">#{issue.to_s}</option>"
       end.join("\n")
-    
-      render :text => ret
     end
+      render :text => ret
   end
   
   def submit_time
