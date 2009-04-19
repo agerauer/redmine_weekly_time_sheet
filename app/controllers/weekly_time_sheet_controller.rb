@@ -9,11 +9,13 @@ class WeeklyTimeSheetController < ApplicationController
   end
   
   def project_tasks
-    ret = Issue.visible.open.find(:all, :conditions => {:project_id => params[:id]}).collect do |issue|
-      "<option value=\"#{issue.id}\">#{issue.to_s}</option>"
-    end.join("\n")
+    Issue.visible_by do
+      ret = Issue.open.find(:all, :conditions => ["#{IssueStatus.table_name}.is_closed = ?", false], :include => :status).collect do |issue|
+        "<option value=\"#{issue.id}\">#{issue.to_s}</option>"
+      end.join("\n")
     
-    render :text => ret
+      render :text => ret
+    end
   end
   
   def submit_time
