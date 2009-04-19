@@ -17,17 +17,17 @@
       $('entry_comment').clear();
     },
     deleteTime: function(id) {
-      new Ajax.Updater('time_entry_list', '/<%= controller_name %>/delete_item/' + id);
+      new Ajax.Updater('time_entry_list', '<%= url_for :action => 'delete_item' %>/' + id);
       return false;
     },
     projectChanged: function() {
       prj_id = $('entry_project').value;
-      new Ajax.Updater('entry_issue', '/<%= controller_name %>/project_tasks/' + prj_id);
+      new Ajax.Updater('entry_issue', '<%= url_for :action => 'project_tasks' %>/' + prj_id);
       return false;
     },
     submitTime: function() {
       if(this.validateTimeForm()) {
-        new Ajax.Updater('time_entry_list', '/<%= controller_name %>/submit_time', {
+        new Ajax.Updater('time_entry_list', '<%=  url_for :action => 'submit_time' %>', {
           parameters: Form.serialize('time_entry_form'),
           method: 'post',
           onSuccess: function(result) {
