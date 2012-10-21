@@ -8,7 +8,7 @@ Redmine::Plugin.register :redmine_weekly_time_sheet do
   
   menu(:top_menu,
        :weekly_time_sheet,
-       {:controller => 'weekly_time_sheet ', :action => 'index'},
+       {:controller => 'weekly_time_sheet', :action => 'index'},
        :caption => :redmine_weekly_time_sheet_title,
        :if => Proc.new {
          User.current.allowed_to?(:log_time, nil, :global => true) ||
